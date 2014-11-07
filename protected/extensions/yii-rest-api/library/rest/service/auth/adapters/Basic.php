@@ -30,6 +30,14 @@ class Basic implements AdapterInterface
     public function authenticate()
     {
         header('WWW-Authenticate: Basic realm="' . $this->realm . '"');
+		
+		/* if php is FastCGI
+		
+		if(preg_match('/Basic+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
+        {
+           list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = 
+                explode(':' , base64_decode(substr($_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 6))); 
+        }*/
 
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
             throw new \CHttpException(401, \Yii::t('ext', 'Undefined auth user'));
